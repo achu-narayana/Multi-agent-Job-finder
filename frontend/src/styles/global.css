@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-html {
+:root {
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
 }

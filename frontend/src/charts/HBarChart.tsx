@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { animated, useInView, useSprings } from "@react-spring/web";
+import { animated, useSprings } from "@react-spring/web";
+import { useEntered } from "../motion/useEntered";
 import { Tooltip } from "./ChartCard";
 import { barPath, useWidth } from "./useSize";
 
@@ -25,7 +26,7 @@ const BAR = 18; // ≤ 24px thick
 /** Single-series horizontal bars. React Spring grows each bar from the baseline. */
 export function HBarChart({ data, color = "var(--viz-1)", labelWidth = 110, emphasis }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
-  const [viewRef, inView] = useInView({ once: true, amount: 0.3 });
+  const entered = useEntered();
   const [active, setActive] = useState<number | null>(null);
 
   const valueRoom = 72;
@@ -36,7 +37,7 @@ export function HBarChart({ data, color = "var(--viz-1)", labelWidth = 110, emph
   const springs = useSprings(
     data.length,
     data.map((d, i) => ({
-      w: inView ? (d.value / max) * plot : 0,
+      w: entered ? (d.value / max) * plot : 0,
       delay: i * 60,
       config: { tension: 170, friction: 26 },
     })),
@@ -44,7 +45,7 @@ export function HBarChart({ data, color = "var(--viz-1)", labelWidth = 110, emph
 
   return (
     <div className="chart-body" ref={ref}>
-      <div ref={viewRef}>
+      <div>
         <svg className={`chart-svg${active !== null ? " chart-dim" : ""}`} width={width} height={height} role="img" aria-label="Bar chart">
           <line className="chart-grid" x1={labelWidth} x2={labelWidth} y1={0} y2={height} />
           {data.map((d, i) => {

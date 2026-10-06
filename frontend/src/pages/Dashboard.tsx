@@ -15,7 +15,7 @@ import { REGIONS, STARTUPS, daysSince, type Round } from "../data/startups";
 import { VARIANT_LABEL, type Variant } from "../lib/coldmail";
 import { formatFunding, formatUsd, pct } from "../lib/format";
 import { bestContact, estimatePay, matchStartup } from "../lib/insights";
-import { useScrollReveal } from "../motion/useScrollReveal";
+import { useStaggerIn } from "../motion/useStaggerIn";
 import { STAGES, useStore } from "../state/store";
 import "./pages.css";
 
@@ -31,7 +31,7 @@ export function Dashboard() {
   const navigate = useNavigate();
   const { profile, outreach, stages } = useStore();
   const [range, setRange] = useState<(typeof RANGES)[number]>(90);
-  const revealRef = useScrollReveal<HTMLDivElement>();
+  const revealRef = useStaggerIn<HTMLDivElement>();
 
   const inRange = useMemo(() => STARTUPS.filter((s) => daysSince(s.announced) <= range), [range]);
 

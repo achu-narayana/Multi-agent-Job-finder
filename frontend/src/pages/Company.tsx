@@ -9,7 +9,7 @@ import { PageHeader } from "../components/PageHeader";
 import { STARTUP_BY_ID, daysSince, type Person } from "../data/startups";
 import { formatDate, formatFunding, relativeDays } from "../lib/format";
 import { estimatePay, matchStartup, referralWarmth } from "../lib/insights";
-import { useScrollReveal } from "../motion/useScrollReveal";
+import { useStaggerIn } from "../motion/useStaggerIn";
 import { STAGES, useStore, type Stage } from "../state/store";
 import "./pages.css";
 
@@ -20,7 +20,7 @@ export function Company() {
   const startup = STARTUP_BY_ID[id];
   const { profile, outreach, stageOf, setStage } = useStore();
   const [composing, setComposing] = useState<Person | null>(null);
-  const revealRef = useScrollReveal<HTMLDivElement>();
+  const revealRef = useStaggerIn<HTMLDivElement>();
 
   if (!startup) {
     return (

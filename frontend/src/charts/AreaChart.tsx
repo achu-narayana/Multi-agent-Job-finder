@@ -20,8 +20,7 @@ interface Props {
 const PAD = { top: 16, right: 56, bottom: 28, left: 36 };
 
 /**
- * Single-series area over time. Anime.js draws the 2px line in when it enters
- * the viewport; a crosshair snaps to the nearest point on hover.
+ * Single-series area over time. Anime.js draws the 2px line in on load; a crosshair snaps to the nearest point on hover.
  */
 export function AreaChart({ data, height = 220, seriesLabel, color = "var(--viz-1)" }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
@@ -41,24 +40,23 @@ export function AreaChart({ data, height = 220, seriesLabel, color = "var(--viz-
 
   useEffect(() => {
     const path = lineRef.current;
-    const host = ref.current;
-    if (!path || !host || drawn) return;
+    if (!path || drawn) return;
     if (prefersReducedMotion()) {
       setDrawn(true);
       return;
     }
     const [drawable] = createDrawable(path, 0, 0);
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-        animate(drawable, { draw: ["0 0", "0 1"], duration: 1400, ease: "inOutQuad", onComplete: () => setDrawn(true) });
-      },
-      { threshold: 0.4 },
-    );
-    observer.observe(host);
-    return () => observer.disconnect();
-  }, [ref, drawn, line]);
+    const animation = animate(drawable, {
+      draw: ["0 0", "0 1"],
+      duration: 1400,
+      delay: 250,
+      ease: "inOutQuad",
+      onComplete: () => setDrawn(true),
+    });
+    return () => {
+      animation.revert();
+    };
+  }, [drawn, line]);
 
   function onMove(event: PointerEvent<SVGRectElement>) {
     const rect = event.currentTarget.getBoundingClientRect();

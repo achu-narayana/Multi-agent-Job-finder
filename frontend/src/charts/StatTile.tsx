@@ -1,4 +1,5 @@
-import { animated, useInView, useSpring } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
+import { useEntered } from "../motion/useEntered";
 
 interface StatTileProps {
   label: string;
@@ -10,16 +11,16 @@ interface StatTileProps {
 
 const defaultFormat = (n: number) => new Intl.NumberFormat("en-US").format(Math.round(n));
 
-/** Stat tile: React Spring counts the value up when it enters the viewport. */
+/** Stat tile: React Spring counts the value up on load. */
 export function StatTile({ label, value, format = defaultFormat, delta, className = "" }: StatTileProps) {
-  const [ref, inView] = useInView({ once: true, amount: 0.4 });
-  const { n } = useSpring({ n: inView ? value : 0, config: { tension: 120, friction: 26 } });
+  const entered = useEntered();
+  const { n } = useSpring({ n: entered ? value : 0, config: { tension: 120, friction: 26 } });
 
   const deltaClass =
     delta && delta.direction !== "flat" ? ((delta.good ?? delta.direction === "up") ? " is-up" : " is-down") : "";
 
   return (
-    <div className={`stat-tile card ${className}`} ref={ref}>
+    <div className={`stat-tile card ${className}`}>
       <span className="stat-label">{label}</span>
       <animated.span className="stat-value">{n.to(format)}</animated.span>
       {delta && (
@@ -34,10 +35,10 @@ export function StatTile({ label, value, format = defaultFormat, delta, classNam
 
 /** Same-ramp meter; the fill springs to its value. */
 export function Meter({ value, label }: { value: number; label: string }) {
-  const [ref, inView] = useInView({ once: true });
-  const { w } = useSpring({ w: inView ? Math.max(0, Math.min(1, value / 100)) : 0, config: { tension: 120, friction: 22 } });
+  const entered = useEntered();
+  const { w } = useSpring({ w: entered ? Math.max(0, Math.min(1, value / 100)) : 0, config: { tension: 120, friction: 22 } });
   return (
-    <div className="meter" ref={ref} role="meter" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} aria-label={label}>
+    <div className="meter" role="meter" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} aria-label={label}>
       <animated.div className="meter-fill" style={{ transform: w.to((v) => `scaleX(${v})`) }} />
     </div>
   );

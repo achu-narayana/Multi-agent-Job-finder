@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { animated, useInView, useSprings } from "@react-spring/web";
+import { animated, useSprings } from "@react-spring/web";
+import { useEntered } from "../motion/useEntered";
 import { Tooltip } from "./ChartCard";
 import { barPath, useWidth } from "./useSize";
 
@@ -25,7 +26,7 @@ const COL = 24; // ≤ 24px wide
 /** Single-series columns; value on the cap. React Spring raises them from the baseline. */
 export function ColumnChart({ data, height = 200, color = "var(--viz-1)", emphasis }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
-  const [viewRef, inView] = useInView({ once: true, amount: 0.3 });
+  const entered = useEntered();
   const [active, setActive] = useState<number | null>(null);
 
   const plotH = height - PAD.top - PAD.bottom;
@@ -39,12 +40,12 @@ export function ColumnChart({ data, height = 200, color = "var(--viz-1)", emphas
 
   const springs = useSprings(
     data.length,
-    data.map((d, i) => ({ h: inView ? (d.value / max) * plotH : 0, delay: i * 90, config: { tension: 160, friction: 24 } })),
+    data.map((d, i) => ({ h: entered ? (d.value / max) * plotH : 0, delay: i * 90, config: { tension: 160, friction: 24 } })),
   );
 
   return (
     <div className="chart-body" ref={ref}>
-      <div ref={viewRef}>
+      <div>
         <svg className={`chart-svg${active !== null ? " chart-dim" : ""}`} width={width} height={height} role="img" aria-label="Column chart">
           <line className="chart-grid" x1={0} x2={width} y1={base} y2={base} />
           {data.map((d, i) => {

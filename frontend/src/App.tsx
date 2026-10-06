@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router";
+import { BrowserRouter, MemoryRouter, Navigate, Route, Routes, useLocation } from "react-router";
 import { MotionConfig } from "motion/react";
 import { Shell } from "./components/Shell";
 import { Company } from "./pages/Company";
@@ -10,13 +10,16 @@ import { Referrals } from "./pages/Referrals";
 import { Startups } from "./pages/Startups";
 import { StoreProvider } from "./state/store";
 
+// The hosted build has no server to route deep links, so it keeps the route in memory.
+const Router = import.meta.env.MODE === "artifact" ? MemoryRouter : BrowserRouter;
+
 export function App() {
   return (
     <MotionConfig reducedMotion="user">
       <StoreProvider>
-        <BrowserRouter>
+        <Router>
           <AppRoutes />
-        </BrowserRouter>
+        </Router>
       </StoreProvider>
     </MotionConfig>
   );

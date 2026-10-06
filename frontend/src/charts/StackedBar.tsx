@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { animated, useInView, useSpring } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
+import { useEntered } from "../motion/useEntered";
 import { Tooltip } from "./ChartCard";
 import { useWidth } from "./useSize";
 
@@ -29,9 +30,9 @@ const GAP = 2; // surface gap between segments
 /** Horizontal stacked bars (part-to-whole). React Spring sweeps them in. */
 export function StackedBar({ rows, series, format, labelWidth = 90 }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
-  const [viewRef, inView] = useInView({ once: true, amount: 0.3 });
+  const entered = useEntered();
   const [active, setActive] = useState<{ row: number; series: number } | null>(null);
-  const { t } = useSpring({ t: inView ? 1 : 0, config: { tension: 140, friction: 26 } });
+  const { t } = useSpring({ t: entered ? 1 : 0, config: { tension: 140, friction: 26 } });
 
   const valueRoom = 64;
   const plot = Math.max(40, width - labelWidth - valueRoom);
@@ -47,7 +48,7 @@ export function StackedBar({ rows, series, format, labelWidth = 90 }: Props) {
 
   return (
     <div className="chart-body" ref={ref}>
-      <div ref={viewRef}>
+      <div>
         <svg className={`chart-svg${active ? " chart-dim" : ""}`} width={width} height={height} role="img" aria-label="Stacked bar chart">
           <line className="chart-grid" x1={labelWidth} x2={labelWidth} y1={0} y2={height} />
           {rows.map((row, ri) => {
