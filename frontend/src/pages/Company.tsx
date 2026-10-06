@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import { ChartCard } from "../charts/ChartCard";
 import { ColumnChart } from "../charts/ColumnChart";
 import { Meter } from "../charts/StatTile";
@@ -19,7 +19,11 @@ export function Company() {
   const { id = "" } = useParams();
   const startup = STARTUP_BY_ID[id];
   const { profile, outreach, stageOf, setStage } = useStore();
-  const [composing, setComposing] = useState<Person | null>(null);
+  const [params] = useSearchParams();
+  // `?compose=<personId>` (from the command palette or constellation) opens that draft directly.
+  const [composing, setComposing] = useState<Person | null>(
+    () => startup?.people.find((p) => p.id === params.get("compose")) ?? null,
+  );
   const revealRef = useStaggerIn<HTMLDivElement>();
 
   if (!startup) {

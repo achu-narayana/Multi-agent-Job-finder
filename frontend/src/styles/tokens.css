@@ -89,6 +89,12 @@
     rgba(0, 0, 0, 0.1) 0px 4px 4px 0px;
   --shadow-subtle-5: rgba(0, 0, 0, 0.1) 0px 0px 0px 2px;
 
+  /* Raycast-style keycap stack for glass panels and keyboard hints */
+  --shadow-keycap: rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
+  /* Brand mark only (command palette footer) — never text, links or actions */
+  --color-coral: #ff6363;
+
   /* Layout */
   --layout-max: 1200px;
   --layout-gutter: 24px;

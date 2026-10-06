@@ -3,6 +3,7 @@ import { NavLink, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { EASE } from "../motion/setup";
 import { useStore } from "../state/store";
+import { CommandPalette, Kbd, MOD_KEY, OPEN_PALETTE_EVENT } from "./CommandPalette";
 import { ResumeUpload } from "./ResumeUpload";
 import "./Shell.css";
 
@@ -30,6 +31,17 @@ export function Shell({ children }: { children: ReactNode }) {
           </svg>
           <span>Jobly</span>
         </NavLink>
+
+        <button type="button" className="cmd-trigger" onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))} aria-label="Search (command palette)">
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+            <path d="M7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10zM14 14l-3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          <span className="cmd-trigger-label">Search…</span>
+          <span className="cmd-trigger-keys">
+            <Kbd>{MOD_KEY}</Kbd>
+            <Kbd>K</Kbd>
+          </span>
+        </button>
 
         <nav className="side-nav" aria-label="Main">
           {NAV.map((item) => (
@@ -63,14 +75,15 @@ export function Shell({ children }: { children: ReactNode }) {
           ) : (
             <p className="t-caption t-faint">Upload your résumé to personalise matches, pay estimates and emails.</p>
           )}
-          <ResumeUpload />
+          <ResumeUpload listenForCommand />
         </div>
       </aside>
+      <CommandPalette />
 
       <main className="main">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={location.pathname}
+            key={location.pathname + location.search}
             className="page"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}

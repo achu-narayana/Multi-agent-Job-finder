@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { RemoteBadge, RoundBadge, SampleTag, Score } from "../components/bits";
 import { PageHeader } from "../components/PageHeader";
@@ -22,11 +22,16 @@ const SORTS: { key: SortKey; label: string }[] = [
 export function Startups() {
   const navigate = useNavigate();
   const { profile } = useStore();
-  const [region, setRegion] = useState<Region | "All">("All");
-  const [city, setCity] = useState("All");
+  // Deep links from the command palette: ?city=Hyderabad, ?remote=1
+  const [params] = useSearchParams();
+  const initialCity = params.get("city");
+  const [region, setRegion] = useState<Region | "All">(
+    () => (initialCity && STARTUPS.find((s) => s.city === initialCity)?.region) || "All",
+  );
+  const [city, setCity] = useState(initialCity ?? "All");
   const [round, setRound] = useState<Round | "All">("All");
   const [within, setWithin] = useState(90);
-  const [remoteOnly, setRemoteOnly] = useState(profile?.remoteOnly ?? false);
+  const [remoteOnly, setRemoteOnly] = useState(params.get("remote") === "1" || (profile?.remoteOnly ?? false));
   const [sort, setSort] = useState<SortKey>(profile ? "match" : "recent");
   const [query, setQuery] = useState("");
 

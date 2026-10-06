@@ -7,6 +7,7 @@ import { ALL_PEOPLE, STARTUPS } from "../data/startups";
 import { matchStartup, referralWarmth } from "../lib/insights";
 import { extractText, parseProfile, type Profile } from "../lib/resume";
 import { prefersReducedMotion } from "../motion/setup";
+import { UPLOAD_RESUME_EVENT } from "./CommandPalette";
 import { useStore } from "../state/store";
 import "./ResumeUpload.css";
 
@@ -23,10 +24,26 @@ const STEPS = [
 type Phase = { kind: "idle" } | { kind: "parsing"; fileName: string } | { kind: "done"; profile: Profile } | { kind: "error"; message: string };
 
 /** The "Upload résumé" button. Renders as the lime primary CTA or a quieter pill. */
-export function ResumeUpload({ variant = "pill", children }: { variant?: "primary" | "pill"; children?: ReactNode }) {
+export function ResumeUpload({
+  variant = "pill",
+  children,
+  listenForCommand = false,
+}: {
+  variant?: "primary" | "pill";
+  children?: ReactNode;
+  /** The one always-mounted instance (sidebar) answers the command palette's "Upload résumé". */
+  listenForCommand?: boolean;
+}) {
   const input = useRef<HTMLInputElement>(null);
   const { profile, setProfile } = useStore();
   const [phase, setPhase] = useState<Phase>({ kind: "idle" });
+
+  useEffect(() => {
+    if (!listenForCommand) return;
+    const open = () => input.current?.click();
+    window.addEventListener(UPLOAD_RESUME_EVENT, open);
+    return () => window.removeEventListener(UPLOAD_RESUME_EVENT, open);
+  }, [listenForCommand]);
 
   async function handle(file: File) {
     setPhase({ kind: "parsing", fileName: file.name });

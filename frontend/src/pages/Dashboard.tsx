@@ -8,6 +8,7 @@ import { HBarChart } from "../charts/HBarChart";
 import { StackedBar } from "../charts/StackedBar";
 import { StatTile } from "../charts/StatTile";
 import { Avatar, SampleTag, Score } from "../components/bits";
+import { Constellation } from "../components/Constellation";
 import { PageHeader } from "../components/PageHeader";
 import { ResumeUpload } from "../components/ResumeUpload";
 import { SAMPLE_HISTORY } from "../data/history";
@@ -135,6 +136,28 @@ export function Dashboard() {
         </LayoutGroup>
         <span className="t-caption t-faint">Scopes the funding stats and charts below</span>
       </div>
+
+      <ChartCard
+        className="constellation-card"
+        title="Your referral constellation"
+        subtitle="You at the centre, people who can refer you in between, startups on the outer ring. Brighter lines are warmer paths — click any point."
+        table={{
+          columns: ["Startup", "Raised", "Warmest contact", "Warmth"],
+          rows: matches.map((m) => [m.s.name, `${formatFunding(m.s, m.s.amountUsd)} ${m.s.round}`, m.contact?.person.name ?? "—", m.contact?.warmth.score ?? 0]),
+        }}
+      >
+        <ul className="legend-shapes">
+          <li><span className="legend-you" />You</li>
+          <li><span className="legend-dot" />Contact (brighter = warmer)</li>
+          {ROUND_GROUPS.map((g) => (
+            <li key={g.key}>
+              <span className="legend-tri" style={{ color: g.color }} />
+              {g.label}
+            </li>
+          ))}
+        </ul>
+        <Constellation startups={inRange} profile={profile} />
+      </ChartCard>
 
       <div className="kpi-row">
         <StatTile label="Startups funded" value={inRange.length} delta={{ text: `in the last ${range} days`, direction: "flat" }} />
