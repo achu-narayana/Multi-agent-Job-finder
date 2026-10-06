@@ -1,19 +1,27 @@
 .shell {
-  display: grid;
-  grid-template-columns: 232px minmax(0, 1fr);
   min-height: 100vh;
 }
 
-.sidebar {
+/* ── Top navigation bar ─────────────────────────────────────── */
+
+.topbar {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
-  height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  background: rgba(16, 9, 4, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: var(--dash);
+}
+
+.topbar-inner {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-28);
-  padding: var(--space-24) var(--space-20);
-  background: var(--bg);
-  border-right: var(--dash);
+  align-items: center;
+  gap: var(--space-32);
+  max-width: calc(1200px + var(--space-48) * 2);
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 var(--space-48);
 }
 
 /* Pure typographic wordmark — no icon */
@@ -21,6 +29,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
+  flex: none;
   color: var(--text-strong);
   font-size: 15px;
   font-weight: var(--weight-medium);
@@ -34,81 +43,83 @@
   letter-spacing: var(--tracking-caps);
 }
 
-.side-nav {
-  display: grid;
-  gap: 2px;
-}
-
-.side-link {
-  position: relative;
+.top-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-12);
+  gap: var(--space-24);
+  min-width: 0;
+}
+
+.top-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 0;
   color: var(--text-muted);
   font-size: 11px;
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
+  white-space: nowrap;
   transition: color var(--duration-fast) var(--ease-out);
 }
-.side-link:hover,
-.side-link.active {
+.top-link:hover,
+.top-link.active {
   color: var(--text-strong);
 }
-.side-link svg {
-  opacity: 0.7;
-}
-.side-link svg,
-.side-link-label,
-.side-count {
+.top-link-label,
+.nav-count {
   position: relative;
 }
 /* Active item: a dashed underline that glides between links (Motion layoutId) */
-.side-link-bg {
+.top-link-underline {
   position: absolute;
-  left: 28px;
+  left: 0;
   right: 0;
-  bottom: 3px;
+  bottom: 2px;
   height: 0;
   border-top: 1px dashed var(--text-strong);
 }
-.side-count {
-  margin-left: auto;
-  min-width: 18px;
-  padding: 0 6px;
+.nav-count {
+  min-width: 16px;
+  padding: 0 5px;
   border-radius: var(--radius-badge);
   box-shadow: inset 0 0 0 1px var(--accent);
   color: var(--accent);
   font-size: 10px;
-  line-height: 16px;
+  line-height: 15px;
   text-align: center;
 }
 
-.side-foot {
-  margin-top: auto;
-  display: grid;
+.topbar-actions {
+  display: flex;
+  align-items: center;
   gap: var(--space-12);
-  padding-top: var(--space-16);
-  border-top: var(--dash);
+  margin-left: auto;
+  flex: none;
 }
-.side-foot .btn {
-  width: 100%;
-}
-.side-profile {
-  display: grid;
-  min-width: 0;
-}
-.side-profile span {
+.topbar-profile {
+  max-width: 160px;
   overflow: hidden;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
+.topbar-profile:hover {
+  color: var(--text-strong);
+}
+
+/* ── Page area ──────────────────────────────────────────────── */
 
 .main {
   position: relative;
   min-width: 0;
-  padding: var(--space-48) var(--space-56) var(--space-80) var(--space-48);
+  padding: var(--space-48) var(--space-48) var(--space-80);
 }
 
 /* Product serial, set vertically on the right edge */
@@ -163,56 +174,50 @@
   gap: var(--space-8);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
   .serial {
     display: none;
   }
-  .main {
-    padding-right: var(--space-40);
+}
+
+/* Medium widths: hide the profile name, keep search to an icon */
+@media (max-width: 1140px) {
+  .topbar-profile,
+  .cmd-trigger-label,
+  .cmd-trigger-keys {
+    display: none;
+  }
+  .top-nav {
+    gap: var(--space-20);
+  }
+  .cmd-trigger {
+    width: 32px;
+    padding: 0;
+    justify-content: center;
   }
 }
 
+/* Narrow: two rows — brand + actions, then a scrollable link row */
 @media (max-width: 900px) {
-  .shell {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 40;
+  .topbar-inner {
+    flex-wrap: wrap;
     height: auto;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-16);
-    padding: var(--space-12) var(--space-16);
-    border-right: 0;
-    border-bottom: var(--dash);
+    gap: 0 var(--space-12);
+    padding: var(--space-12) var(--space-16) 0;
+  }
+  .topbar-actions {
+    order: 2;
+  }
+  .top-nav {
+    order: 3;
+    flex-basis: 100%;
+    gap: var(--space-20);
+    margin-top: var(--space-8);
     overflow-x: auto;
     scrollbar-width: none;
   }
-  .side-nav {
-    display: flex;
-    gap: var(--space-16);
-  }
-  .side-link {
-    white-space: nowrap;
-  }
-  .side-link svg {
+  .top-nav::-webkit-scrollbar {
     display: none;
-  }
-  .side-link-bg {
-    left: 0;
-  }
-  .side-foot {
-    margin: 0 0 0 auto;
-    padding: 0;
-    border-top: 0;
-  }
-  .side-foot > :not(.btn) {
-    display: none;
-  }
-  .side-foot .btn {
-    width: auto;
   }
   .main {
     padding: var(--space-24) var(--space-16) var(--space-64);
