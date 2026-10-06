@@ -1,0 +1,300 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-void);
+  color: var(--color-mist);
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-features);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-mist);
+  outline-offset: 2px;
+}
+
+code,
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-mono);
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+
+.t-display,
+.t-heading-lg,
+.t-heading {
+  color: var(--color-paper);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+.t-display {
+  font-size: clamp(44px, 8vw, var(--text-display));
+}
+.t-heading-lg {
+  font-size: clamp(40px, 7vw, var(--text-heading-lg));
+}
+.t-heading {
+  font-size: clamp(32px, 5.5vw, var(--text-heading));
+}
+.t-heading-sm {
+  color: var(--color-paper);
+  font-size: var(--text-heading-sm);
+  line-height: 1.13;
+  letter-spacing: var(--tracking-tight);
+}
+.t-subheading {
+  font-size: var(--text-subheading);
+  line-height: 1.33;
+  letter-spacing: var(--tracking-snug);
+}
+.t-body-lg {
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  line-height: 1.33;
+  letter-spacing: var(--tracking-snug);
+}
+.t-body-sm {
+  font-size: var(--text-body-sm);
+  line-height: 1.6;
+  letter-spacing: var(--tracking-ui);
+}
+.t-caption {
+  font-size: var(--text-caption);
+  line-height: 1.2;
+}
+.t-muted {
+  color: var(--color-fog);
+}
+.t-faint {
+  color: var(--color-ash);
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--layout-max) + var(--layout-gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--layout-gutter);
+}
+
+.section {
+  padding: var(--section-gap) 0 0;
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-12);
+  max-width: 640px;
+  margin-bottom: var(--space-48);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--color-fog);
+  font-size: var(--text-caption);
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-graphite);
+  border: 0;
+  margin: 0;
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+/* The only chromatic CTA — one per view. */
+.btn-primary {
+  background: var(--color-acid-lime);
+  color: var(--color-void);
+  border-radius: var(--radius-control);
+  padding: 10px 16px;
+  font-size: var(--text-ui);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-ui);
+}
+.btn-primary:hover {
+  background: #eef55a;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-mist);
+  border-radius: var(--radius-control);
+  box-shadow: inset 0 0 0 1px var(--color-graphite);
+  padding: 8px 12px;
+  font-size: var(--text-caption);
+}
+.btn-ghost:hover {
+  box-shadow: inset 0 0 0 1px var(--color-smoke);
+  color: var(--color-bone);
+}
+
+.btn-pill {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-mist);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: var(--text-caption);
+}
+.btn-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-signup {
+  background: var(--color-paper);
+  color: var(--color-void);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+}
+.btn-signup:hover {
+  background: var(--color-bone);
+}
+
+.btn-nav {
+  background: transparent;
+  color: var(--color-mist);
+  padding: 8px 12px;
+  font-size: var(--text-caption);
+  text-underline-offset: 4px;
+}
+.btn-nav:hover {
+  text-decoration: underline;
+}
+
+/* ── Surfaces ───────────────────────────────────────────────── */
+
+.card {
+  background: var(--color-carbon);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+  padding: var(--space-24);
+}
+
+.panel {
+  background: var(--color-obsidian);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+}
+
+/* ── Inputs ─────────────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-control);
+  padding: 12px 14px;
+  color: var(--color-mist);
+  font-size: var(--text-ui);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.input::placeholder {
+  color: var(--color-fog);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--color-mist);
+}
+
+/* ── Badges ─────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-fog);
+  border-radius: var(--radius-badge);
+  padding: 0 6px;
+  font-size: var(--text-micro);
+  line-height: 20px;
+  white-space: nowrap;
+}
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+.badge-green {
+  color: var(--color-pulse-green);
+}
+.badge-red {
+  color: var(--color-coral-red);
+}
+.badge-iris {
+  color: var(--color-iris-violet);
+}
+.badge-lavender {
+  color: var(--color-lavender);
+}
+.badge-teal {
+  color: var(--color-signal-teal);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --layout-gutter: 16px;
+    --section-gap: var(--space-64);
+  }
+}
