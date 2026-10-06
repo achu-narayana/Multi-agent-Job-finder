@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node / Cloudflare (see packages/inbox/.gitignore for more)
+node_modules/
+
+# Secrets
+.env
+.dev.vars
