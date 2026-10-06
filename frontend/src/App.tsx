@@ -1,25 +1,42 @@
-import { useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router";
 import { MotionConfig } from "motion/react";
-import { Nav } from "./components/Nav";
-import { Hero } from "./sections/Hero";
-import { JobBoard } from "./sections/JobBoard";
-import { Pipeline } from "./sections/Pipeline";
-import { AgentFlow } from "./sections/AgentFlow";
-import { Footer } from "./sections/Footer";
+import { Shell } from "./components/Shell";
+import { Company } from "./pages/Company";
+import { Dashboard } from "./pages/Dashboard";
+import { Outreach } from "./pages/Outreach";
+import { Pipeline } from "./pages/Pipeline";
+import { Profile } from "./pages/Profile";
+import { Referrals } from "./pages/Referrals";
+import { Startups } from "./pages/Startups";
+import { StoreProvider } from "./state/store";
 
 export function App() {
-  const [query, setQuery] = useState("");
-
   return (
     <MotionConfig reducedMotion="user">
-      <Nav />
-      <main>
-        <Hero onSearch={setQuery} />
-        <JobBoard query={query} />
-        <Pipeline />
-        <AgentFlow />
-      </main>
-      <Footer />
+      <StoreProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </StoreProvider>
     </MotionConfig>
+  );
+}
+
+/** Routes get an explicit location so the page animating out keeps rendering its own route. */
+function AppRoutes() {
+  const location = useLocation();
+  return (
+    <Shell>
+      <Routes location={location}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/startups" element={<Startups />} />
+        <Route path="/startups/:id" element={<Company />} />
+        <Route path="/referrals" element={<Referrals />} />
+        <Route path="/outreach" element={<Outreach />} />
+        <Route path="/pipeline" element={<Pipeline />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Shell>
   );
 }

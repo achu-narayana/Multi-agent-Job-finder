@@ -1,0 +1,120 @@
+.parse-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: var(--space-16);
+  background: rgba(8, 9, 10, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.parse-dialog {
+  width: min(520px, 100%);
+  padding: var(--space-32);
+  box-shadow: var(--shadow-subtle-4), var(--shadow-xl);
+}
+
+.parse-body {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: var(--space-24);
+  align-items: center;
+}
+
+.parse-doc {
+  width: 96px;
+  height: 120px;
+}
+.doc-frame {
+  fill: var(--color-carbon);
+  stroke: var(--color-smoke);
+}
+.scan-line {
+  stroke: var(--color-ash);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.scan-beam {
+  fill: var(--color-acid-lime);
+  opacity: 0.85;
+}
+
+.parse-steps {
+  display: grid;
+  gap: var(--space-8);
+  margin: var(--space-12) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-ui);
+  color: var(--color-mist);
+}
+.parse-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.parse-check {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(39, 166, 68, 0.16);
+  color: var(--color-pulse-green);
+  font-size: 10px;
+}
+
+.parse-result {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.parse-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  margin: var(--space-8) 0 0;
+}
+.parse-stats div {
+  padding: var(--space-12);
+  border-radius: var(--radius-control);
+  background: var(--color-carbon);
+  box-shadow: var(--shadow-subtle);
+}
+.parse-stats dt {
+  color: var(--color-fog);
+  font-size: var(--text-micro);
+}
+.parse-stats dd {
+  margin: 4px 0 0;
+  color: var(--color-paper);
+  font-size: var(--text-subheading);
+  font-weight: var(--weight-medium);
+}
+
+.parse-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 520px) {
+  .parse-dialog {
+    padding: var(--space-24);
+  }
+  .parse-body {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+  .parse-stats {
+    grid-template-columns: 1fr;
+  }
+}

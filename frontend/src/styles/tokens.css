@@ -95,6 +95,15 @@
   --section-gap: var(--space-96);
   --nav-height: 64px;
 
+  /* Data viz — validated against --color-carbon (dark): CVD ΔE ≥ 15.7, contrast ≥ 3:1.
+     Single-series charts use --viz-1; at most three categorical slots. */
+  --viz-1: #6366f1;
+  --viz-2: #d95926;
+  --viz-3: #0a9fb0;
+  --viz-muted: #383b3f;
+  --viz-grid: #23252a;
+  --viz-surface: var(--color-carbon);
+
   /* Motion (shared by every animation library) */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 160ms;
