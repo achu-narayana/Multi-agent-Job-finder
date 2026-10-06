@@ -6,7 +6,7 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 
-# Node / Cloudflare (see packages/inbox/.gitignore for more)
+# Node / Cloudflare (see backend/packages/inbox/.gitignore for more)
 node_modules/
 
 # Secrets

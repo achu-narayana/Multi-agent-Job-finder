@@ -5,9 +5,9 @@ Scans files for personally identifiable information and sensitive data.
 Can report findings (--scan) or redact them in place (--sanitize).
 
 Usage:
-    python3 packages/marketing/pii_sanitizer/sanitizer.py --scan --file path/to/file.py
-    python3 packages/marketing/pii_sanitizer/sanitizer.py --scan --dir . --recursive
-    python3 packages/marketing/pii_sanitizer/sanitizer.py --sanitize --file path/to/file.py
+    python3 backend/packages/marketing/pii_sanitizer/sanitizer.py --scan --file path/to/file.py
+    python3 backend/packages/marketing/pii_sanitizer/sanitizer.py --scan --dir . --recursive
+    python3 backend/packages/marketing/pii_sanitizer/sanitizer.py --sanitize --file path/to/file.py
 """
 
 import argparse
@@ -397,7 +397,7 @@ Examples:
   %(prog)s --scan --file config.py
   %(prog)s --scan --dir . --recursive
   %(prog)s --sanitize --dir src/ --recursive
-  %(prog)s --scan --dir . --recursive --config packages/marketing/pii_sanitizer/sanitizer-config.json
+  %(prog)s --scan --dir . --recursive --config backend/packages/marketing/pii_sanitizer/sanitizer-config.json
         """,
     )
 
@@ -410,7 +410,7 @@ Examples:
     target_group.add_argument("--dir", type=str, help="Scan a directory")
 
     parser.add_argument("--recursive", "-r", action="store_true", help="Recurse into subdirectories (with --dir)")
-    parser.add_argument("--config", type=str, help="Path to config JSON (default: packages/marketing/pii_sanitizer/sanitizer-config.json)")
+    parser.add_argument("--config", type=str, help="Path to config JSON (default: backend/packages/marketing/pii_sanitizer/sanitizer-config.json)")
     parser.add_argument("--quiet", "-q", action="store_true", help="Only print summary, not individual findings")
 
     args = parser.parse_args()

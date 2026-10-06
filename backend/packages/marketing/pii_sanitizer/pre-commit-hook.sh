@@ -2,7 +2,7 @@
 # Pre-commit hook: scan staged files for PII / sensitive data.
 #
 # Install:
-#   cp packages/marketing/pii_sanitizer/pre-commit-hook.sh .git/hooks/pre-commit
+#   cp backend/packages/marketing/pii_sanitizer/pre-commit-hook.sh .git/hooks/pre-commit
 #   chmod +x .git/hooks/pre-commit
 #
 # Bypass (emergency only):
@@ -11,7 +11,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-SANITIZER="$REPO_ROOT/packages/marketing/pii_sanitizer/sanitizer.py"
+SANITIZER="$REPO_ROOT/backend/packages/marketing/pii_sanitizer/sanitizer.py"
 
 if [ ! -f "$SANITIZER" ]; then
     echo "⚠️  Sanitizer not found at $SANITIZER — skipping PII check."
@@ -59,7 +59,7 @@ if [ "$FOUND_PII" -eq 1 ]; then
     cat "$TEMP_REPORT"
     echo ""
     echo "To fix:"
-    echo "  1. Run: python3 packages/marketing/pii_sanitizer/sanitizer.py --scan --dir . --recursive"
+    echo "  1. Run: python3 backend/packages/marketing/pii_sanitizer/sanitizer.py --scan --dir . --recursive"
     echo "  2. Review findings and redact manually, or run with --sanitize"
     echo "  3. Stage the fixed files and commit again"
     echo ""
