@@ -94,7 +94,7 @@ export function Profile() {
                     key={r}
                     className="btn btn-pill"
                     aria-pressed={on}
-                    style={on ? { color: "var(--color-paper)", background: "rgba(255,255,255,0.1)" } : undefined}
+                    style={on ? { color: "var(--text-strong)", background: "rgba(255, 237, 215,0.1)" } : undefined}
                     onClick={() =>
                       updateProfile({ targetRegions: on ? profile.targetRegions.filter((x) => x !== r) : [...profile.targetRegions, r] })
                     }

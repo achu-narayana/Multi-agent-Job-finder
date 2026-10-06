@@ -15,15 +15,16 @@
 }
 
 .chart-title {
-  color: var(--color-bone);
-  font-size: var(--text-body-sm);
+  color: var(--text-strong);
+  font-size: 12px;
   font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
 .chart-subtitle {
   margin-top: 2px;
-  color: var(--color-fog);
+  color: var(--text-muted);
   font-size: var(--text-caption);
 }
 
@@ -38,8 +39,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--color-fog);
-  font-size: var(--text-caption);
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 .chart-legend li {
   display: inline-flex;
@@ -68,16 +71,16 @@
   font-feature-settings: var(--font-features);
 }
 .chart-tick {
-  fill: var(--color-ash);
+  fill: var(--text-faint);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
 .chart-label {
-  fill: var(--color-fog);
+  fill: var(--text-muted);
   font-size: 12px;
 }
 .chart-value {
-  fill: var(--color-bone);
+  fill: var(--text-strong);
   font-size: 12px;
   font-weight: var(--weight-medium);
 }
@@ -108,23 +111,23 @@
   pointer-events: none;
   min-width: 140px;
   padding: var(--space-8) var(--space-12);
-  background: var(--color-obsidian);
-  border-radius: var(--radius-control);
-  box-shadow: var(--shadow-subtle-4);
+  background: var(--surface-raised);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
   font-size: var(--text-caption);
 }
 .tt-title {
-  color: var(--color-fog);
+  color: var(--text-muted);
   margin-bottom: 4px;
 }
 .tt-row {
   display: flex;
   align-items: center;
   gap: var(--space-8);
-  color: var(--color-fog);
+  color: var(--text-muted);
 }
 .tt-row strong {
-  color: var(--color-paper);
+  color: var(--text-strong);
   font-weight: var(--weight-medium);
 }
 .tt-key {
@@ -145,15 +148,18 @@
 .chart-table td {
   padding: 6px 8px;
   text-align: left;
-  box-shadow: inset 0 -1px 0 var(--color-graphite);
+  border-bottom: var(--dash);
   white-space: nowrap;
 }
 .chart-table th {
-  color: var(--color-fog);
-  font-weight: var(--weight-regular);
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 .chart-table td {
-  color: var(--color-mist);
+  color: var(--text);
   font-variant-numeric: tabular-nums;
 }
 
@@ -164,37 +170,40 @@
   align-content: start;
 }
 .stat-label {
-  color: var(--color-fog);
-  font-size: var(--text-caption);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 .stat-value {
-  color: var(--color-paper);
-  font-size: var(--text-heading-sm);
-  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+  font-size: var(--text-heading);
+  font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-tight);
-  line-height: 1;
+  line-height: 0.9;
 }
 .stat-delta {
   font-size: var(--text-caption);
-  color: var(--color-fog);
+  color: var(--text-muted);
 }
 .stat-delta.is-up {
-  color: var(--color-pulse-green);
+  color: var(--good);
 }
 .stat-delta.is-down {
-  color: var(--color-coral-red);
+  color: var(--bad);
 }
 
 /* ── Meter ── */
 .meter {
   height: 6px;
   border-radius: var(--radius-pill);
-  background: rgba(99, 102, 241, 0.18);
+  background: var(--accent-soft);
   overflow: hidden;
 }
 .meter-fill {
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--viz-1);
+  background: var(--accent);
   transform-origin: left center;
 }

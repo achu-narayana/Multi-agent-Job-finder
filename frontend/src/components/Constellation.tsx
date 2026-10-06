@@ -13,8 +13,27 @@ import "./Constellation.css";
 // outlined triangles coloured by round (same validated slots as the charts);
 // line brightness is referral warmth. Drawn on canvas with a slow ambient drift.
 
-const ROUND_COLOR = (round: Startup["round"]) =>
-  round === "Series A" ? "#6366f1" : round === "Series B" || round === "Series C" ? "#d95926" : "#0a9fb0";
+// Colours come from the CSS tokens so the canvas follows the theme.
+// Round → slot matches the dashboard's "Rounds by region" chart.
+type Palette = Record<"seed" | "a" | "b" | "you" | "person" | "line" | "lineHot" | "label", string>;
+
+function readPalette(el: Element): Palette {
+  const css = getComputedStyle(el);
+  const v = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback;
+  return {
+    seed: v("--viz-3", "#2f9e74"),
+    a: v("--viz-1", "#dc5000"),
+    b: v("--viz-2", "#5b8def"),
+    you: v("--text-strong", "#ffedd7"),
+    person: v("--text", "#ecdcc6"),
+    line: v("--text-muted", "#ad9a84"),
+    lineHot: v("--text-strong", "#ffedd7"),
+    label: v("--text-muted", "#ad9a84"),
+  };
+}
+
+const roundSlot = (round: Startup["round"]): "seed" | "a" | "b" =>
+  round === "Series A" ? "a" : round === "Series B" || round === "Series C" ? "b" : "seed";
 
 interface Node {
   kind: "you" | "person" | "startup";
@@ -48,7 +67,6 @@ interface Particle {
   alpha: number;
 }
 
-const PARTICLE_COLORS = ["#6366f1", "#d95926", "#0a9fb0", "#8b5cf6", "#d0d6e0"];
 
 export function Constellation({ startups, profile }: { startups: Startup[]; profile: Profile | null }) {
   const navigate = useNavigate();
@@ -65,7 +83,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
     const cy = height / 2;
     const rx = Math.max(110, width / 2 - (width < 600 ? 70 : 120));
     const ry = height / 2 - 34;
-    const you: Node = { kind: "you", id: "you", x: cx, y: cy, r: 7, color: "#ffffff", label: profile?.name ?? "You", detail: profile ? profile.headline : "Upload your résumé", phase: 0 };
+    const you: Node = { kind: "you", id: "you", x: cx, y: cy, r: 7, color: "you", label: profile?.name ?? "You", detail: profile ? profile.headline : "Upload your résumé", phase: 0 };
     const nodes: Node[] = [you];
     const edges: Edge[] = [];
     const sorted = [...startups].sort((a, b) => a.region.localeCompare(b.region) || b.amountUsd - a.amountUsd);
@@ -78,7 +96,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
         x: cx + Math.cos(angle) * rx,
         y: cy + Math.sin(angle) * ry,
         r: 5 + Math.min(7, Math.sqrt(s.amountUsd / 1_000_000)),
-        color: ROUND_COLOR(s.round),
+        color: roundSlot(s.round),
         label: s.name,
         detail: `${formatFunding(s, s.amountUsd)} ${s.round} · ${s.city}`,
         phase: i * 1.7,
@@ -97,7 +115,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
           x: cx + Math.cos(pa) * rx * t,
           y: cy + Math.sin(pa) * ry * t,
           r: 2 + w * 2.5,
-          color: "#d0d6e0",
+          color: "person",
           label: p.name,
           detail: `${p.title} at ${s.name} · warmth ${Math.round(w * 100)}`,
           warmth: w,
@@ -116,6 +134,8 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    const pal = readPalette(canvas);
+    const particleColors = [pal.a, pal.b, pal.seed, pal.label, pal.label];
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
@@ -132,7 +152,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
       size: 1.5 + rand() * 2.5,
       rot: rand() * Math.PI * 2,
       vr: (rand() - 0.5) * 0.004,
-      color: PARTICLE_COLORS[Math.floor(rand() * PARTICLE_COLORS.length)],
+      color: particleColors[Math.floor(rand() * particleColors.length)],
       alpha: 0.12 + rand() * 0.22,
     }));
 
@@ -186,7 +206,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
         const [ax, ay] = pos(e.a);
         const [bx, by] = pos(e.b);
         ctx.globalAlpha = (hovered ? (related ? 0.85 : 0.05) : 0.08 + e.strength * 0.38) * ease;
-        ctx.strokeStyle = related ? "#ffffff" : "#8a8f98";
+        ctx.strokeStyle = related ? pal.lineHot : pal.line;
         ctx.lineWidth = related ? 1.2 : 0.8;
         ctx.beginPath();
         ctx.moveTo(ax, ay);
@@ -200,15 +220,16 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
         const dim = hovered && hovered.id !== n.id && hovered.startupId !== n.startupId && n.kind !== "you";
         ctx.globalAlpha = (dim ? 0.3 : 1) * ease;
         if (n.kind === "startup") {
-          ctx.strokeStyle = n.color;
+          const c = pal[n.color as keyof Palette];
+          ctx.strokeStyle = c;
           ctx.lineWidth = 1.6;
           triangle(x, y, n.r + 3, reduced ? 0 : Math.sin(t * 0.3 + n.phase) * 0.15);
           ctx.stroke();
           ctx.globalAlpha *= 0.22;
-          ctx.fillStyle = n.color;
+          ctx.fillStyle = c;
           ctx.fill();
         } else if (n.kind === "person") {
-          ctx.fillStyle = n.color;
+          ctx.fillStyle = pal.person;
           ctx.globalAlpha *= 0.35 + (n.warmth ?? 0) * 0.65;
           ctx.beginPath();
           ctx.arc(x, y, n.r, 0, Math.PI * 2);
@@ -216,7 +237,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
         } else {
           const pulse = reduced ? 0 : (Math.sin(t * 2) + 1) / 2;
           ctx.globalAlpha = 0.18 * ease;
-          ctx.fillStyle = "#ffffff";
+          ctx.fillStyle = pal.you;
           ctx.beginPath();
           ctx.arc(x, y, n.r + 6 + pulse * 4, 0, Math.PI * 2);
           ctx.fill();
@@ -229,14 +250,15 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
 
       // Startup labels (always visible — identity never relies on hover)
       ctx.globalAlpha = ease;
-      ctx.font = `500 11px "Inter Variable", system-ui, sans-serif`;
-      ctx.fillStyle = "#8a8f98";
+      ctx.font = `500 10px "Hanken Grotesk Variable", system-ui, sans-serif`;
+      ctx.fillStyle = pal.label;
       const placed: [number, number, number, number][] = [];
       for (const n of nodes) {
         if (n.kind !== "startup") continue;
         const [x, y] = pos(n);
         const gap = n.r + 8;
-        const w = ctx.measureText(n.label).width;
+        const text = n.label.toUpperCase();
+        const w = ctx.measureText(text).width;
         // Label points outward, but flips inward if it would run off the canvas.
         let right = x >= width / 2;
         if (right && x + gap + w > width - 4) right = false;
@@ -247,7 +269,7 @@ export function Constellation({ startups, profile }: { startups: Startup[]; prof
         if (placed.some((r) => rect[0] < r[2] && rect[2] > r[0] && rect[1] < r[3] && rect[3] > r[1])) continue;
         placed.push(rect);
         ctx.textAlign = right ? "left" : "right";
-        ctx.fillText(n.label, x + (right ? gap : -gap), y + 4);
+        ctx.fillText(text, x + (right ? gap : -gap), y + 4);
       }
       ctx.globalAlpha = 1;
 

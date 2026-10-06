@@ -106,7 +106,7 @@ export function AreaChart({ data, height = 220, seriesLabel, color = "var(--viz-
 
         {active !== null && (
           <g>
-            <line className="chart-grid" x1={x(active)} x2={x(active)} y1={PAD.top} y2={PAD.top + plotH} stroke="var(--color-smoke)" />
+            <line className="chart-grid" x1={x(active)} x2={x(active)} y1={PAD.top} y2={PAD.top + plotH} stroke="var(--line-strong)" />
             <circle cx={x(active)} cy={y(data[active].value)} r={4} fill={color} stroke="var(--viz-surface)" strokeWidth={2} />
           </g>
         )}

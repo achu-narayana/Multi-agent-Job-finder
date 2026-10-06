@@ -24,7 +24,9 @@ function escapeControlBytes(): Plugin {
 // `--mode artifact` builds a copy that can be hosted as a single page with no
 // server routing (relative asset paths + an in-memory router).
 export default defineConfig(({ mode }) => ({
-  base: "./",
+  // Relative asset paths only for the hosted copy; the normal build keeps "/"
+  // so nested routes like /startups/:id still find /assets/*.
+  base: mode === "artifact" ? "./" : "/",
   plugins: [react(), ...(mode === "artifact" ? [escapeControlBytes()] : [])],
   build: {
     outDir: mode === "artifact" ? "dist-artifact" : "dist",

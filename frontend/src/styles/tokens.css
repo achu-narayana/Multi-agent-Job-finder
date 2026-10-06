@@ -1,57 +1,74 @@
-/* Design tokens — "midnight precision instrument" (dark-first). */
+/* Design tokens — "darkroom editorial" (after ORYZO): warm near-black canvas,
+   cream type as the only decoration, ember used sparingly for emphasis.
+   Layout concept: quiet full-height app, uppercase labels, dashed hairlines
+   carry structure; no shadows — depth is a two-step surface stack. */
 :root {
-  /* Surfaces */
-  --color-void: #08090a;
-  --color-carbon: #0f1011;
-  --color-obsidian: #161718;
-  --color-graphite: #23252a;
-  --color-smoke: #383b3f;
+  color-scheme: dark;
 
-  /* Text */
-  --color-ash: #62666d;
-  --color-fog: #8a8f98;
-  --color-mist: #d0d6e0;
-  --color-bone: #e5e5e6;
-  --color-paper: #ffffff;
+  /* Surfaces (two-step stack + hairlines) */
+  --bg: #100904; /* walnut shadow — canvas */
+  --surface: #160e08; /* cards sit a hair above the canvas */
+  --surface-raised: #221710; /* drawers, dialogs, tooltips */
+  --cta: #382416; /* bark brown — the one filled action per view */
+  --cta-hover: #46301f;
+  --line: #40372e; /* cork — hairlines and dashed dividers */
+  --line-strong: #6c5f51; /* driftwood */
 
-  /* Accents — acid lime is reserved for the single primary action per view */
-  --color-acid-lime: #e4f222;
-  --color-pulse-green: #27a644;
-  --color-coral-red: #eb5757;
-  --color-signal-teal: #02b8cc;
-  --color-iris-violet: #6366f1;
-  --color-lavender: #8b5cf6;
+  /* Text (cream family — never pure white) */
+  --text-strong: #ffedd7;
+  --text: #ecdcc6;
+  --text-muted: #ad9a84;
+  --text-faint: #7f6f5e;
+  --on-cta: #ffedd7;
 
-  /* Fonts */
-  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono Variable", "IBM Plex Mono", ui-monospace, monospace;
-  --font-features: "cv01" on, "ss03" on, "zero" on;
+  /* Accent: ember — links, tags, emphasised phrases, chart slot 1. Never a button fill. */
+  --accent: #dc5000;
+  --accent-soft: rgba(220, 80, 0, 0.16);
 
-  /* Weights (system caps at 590) */
+  /* Tints of cream for hover/selected washes */
+  --wash-1: rgba(255, 237, 215, 0.035);
+  --wash-2: rgba(255, 237, 215, 0.06);
+  --wash-3: rgba(255, 237, 215, 0.1);
+
+  /* Semantic state (culture signals, deltas) */
+  --good: #8dbf6f;
+  --bad: #ef7b5c;
+
+  /* Badge tones reuse the validated chart slots */
+  --tone-1: var(--accent);
+  --tone-2: #7aa6f3;
+  --tone-3: #5fbf98;
+
+  /* Fonts — Hanken Grotesk stands in for Halyard Display */
+  --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-sans);
+  --font-features: normal;
+
   --weight-light: 300;
   --weight-regular: 400;
-  --weight-medium: 510;
-  --weight-semibold: 590;
+  --weight-medium: 500;
+  --weight-semibold: 600;
 
-  /* Type scale */
-  --text-display: 72px;
-  --text-heading-lg: 64px;
-  --text-heading: 48px;
-  --text-heading-sm: 32px;
-  --text-subheading: 24px;
-  --text-body-lg: 20px;
+  /* Type scale (minor third). Display/heading are set uppercase. */
+  --text-display: 51px;
+  --text-heading-lg: 51px;
+  --text-heading: 41px;
+  --text-heading-sm: 24px;
+  --text-subheading: 20px;
+  --text-body-lg: 18px;
   --text-body: 16px;
   --text-body-sm: 15px;
   --text-ui: 14px;
   --text-caption: 13px;
-  --text-micro: 12px;
+  --text-micro: 11px;
 
-  --tracking-tight: -0.022em;
-  --tracking-snug: -0.012em;
-  --tracking-ui: -0.011em;
-  --tracking-mono: -0.013em;
+  --tracking-tight: -0.01em;
+  --tracking-snug: 0;
+  --tracking-ui: 0;
+  --tracking-mono: 0;
+  --tracking-caps: 0.06em;
 
-  /* Spacing (4px base) */
+  /* Spacing */
   --space-4: 4px;
   --space-8: 8px;
   --space-12: 12px;
@@ -69,31 +86,21 @@
   --space-96: 96px;
   --space-128: 128px;
 
-  /* Radii */
+  /* Radii: cards 12, inputs 0, outlined buttons 22.5, pills 36 */
   --radius-small: 2px;
-  --radius-badge: 4px;
-  --radius-control: 6px;
+  --radius-badge: 9999px;
+  --radius-control: 22.5px;
+  --radius-input: 0;
   --radius-card: 12px;
-  --radius-pill: 9999px;
+  --radius-pill: 36px;
 
-  /* Shadows */
-  --shadow-sm: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
-  --shadow-md: rgba(0, 0, 0, 0.2) 0px 0px 12px 0px inset;
-  --shadow-subtle: rgb(35, 37, 42) 0px 0px 0px 1px inset;
-  --shadow-subtle-2: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px;
-  --shadow-subtle-3: rgba(0, 0, 0, 0.01) 0px 5px 2px 0px, rgba(0, 0, 0, 0.04) 0px 3px 2px 0px,
-    rgba(0, 0, 0, 0.07) 0px 1px 1px 0px, rgba(0, 0, 0, 0.08) 0px 0px 1px 0px;
-  --shadow-xl: rgba(8, 9, 10, 0.6) 0px 4px 32px 0px;
-  --shadow-subtle-4: rgba(255, 255, 255, 0.03) 0px 0px 0px 1px inset,
-    rgba(255, 255, 255, 0.04) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.6) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0.1) 0px 4px 4px 0px;
-  --shadow-subtle-5: rgba(0, 0, 0, 0.1) 0px 0px 0px 2px;
+  /* No drop shadows — "shadows" here are hairline rings only */
+  --shadow-subtle: inset 0 0 0 1px var(--line);
+  --shadow-subtle-4: inset 0 0 0 1px var(--line);
+  --shadow-xl: 0 0 0 1px var(--line);
+  --shadow-keycap: inset 0 0 0 1px var(--line), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
 
-  /* Raycast-style keycap stack for glass panels and keyboard hints */
-  --shadow-keycap: rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
-  /* Brand mark only (command palette footer) — never text, links or actions */
-  --color-coral: #ff6363;
+  --dash: 1px dashed var(--line);
 
   /* Layout */
   --layout-max: 1200px;
@@ -101,14 +108,14 @@
   --section-gap: var(--space-96);
   --nav-height: 64px;
 
-  /* Data viz — validated against --color-carbon (dark): CVD ΔE ≥ 15.7, contrast ≥ 3:1.
-     Single-series charts use --viz-1; at most three categorical slots. */
-  --viz-1: #6366f1;
-  --viz-2: #d95926;
-  --viz-3: #0a9fb0;
-  --viz-muted: #383b3f;
-  --viz-grid: #23252a;
-  --viz-surface: var(--color-carbon);
+  /* Data viz — validated on --surface (dark): CVD ΔE ≥ 10.6, contrast ≥ 3:1.
+     Single-series charts use --viz-1 (ember); at most three categorical slots. */
+  --viz-1: #dc5000;
+  --viz-2: #5b8def;
+  --viz-3: #2f9e74;
+  --viz-muted: #4a3e33;
+  --viz-grid: #2c231b;
+  --viz-surface: var(--surface);
 
   /* Motion (shared by every animation library) */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

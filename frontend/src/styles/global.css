@@ -1,5 +1,4 @@
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/hanken-grotesk";
 @import "./tokens.css";
 
 *,
@@ -16,15 +15,19 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--color-void);
-  color: var(--color-mist);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
-  font-feature-settings: var(--font-features);
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--text-strong);
 }
 
 h1,
@@ -40,73 +43,91 @@ a {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
   color: inherit;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-mist);
-  outline-offset: 2px;
+  outline: 1px dashed var(--text-strong);
+  outline-offset: 3px;
 }
 
 code,
 .mono {
   font-family: var(--font-mono);
   font-size: var(--text-micro);
-  letter-spacing: var(--tracking-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
-/* ── Typography ─────────────────────────────────────────────── */
+/* ── Typography ─────────────────────────────────────────────
+   Uppercase weight 500 is the default voice for headings and labels;
+   mixed-case weight 400 is kept for reading text. */
 
 .t-display,
 .t-heading-lg,
 .t-heading {
-  color: var(--color-paper);
+  color: var(--text-strong);
   font-weight: var(--weight-medium);
-  line-height: 1;
+  line-height: 0.92;
   letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  text-wrap: balance;
 }
-.t-display {
-  font-size: clamp(44px, 8vw, var(--text-display));
-}
+.t-display,
 .t-heading-lg {
-  font-size: clamp(40px, 7vw, var(--text-heading-lg));
+  font-size: clamp(36px, 6vw, var(--text-display));
 }
 .t-heading {
-  font-size: clamp(32px, 5.5vw, var(--text-heading));
+  font-size: clamp(30px, 5vw, var(--text-heading));
 }
 .t-heading-sm {
-  color: var(--color-paper);
+  color: var(--text-strong);
   font-size: var(--text-heading-sm);
-  line-height: 1.13;
-  letter-spacing: var(--tracking-tight);
+  font-weight: var(--weight-medium);
+  line-height: 1.09;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 .t-subheading {
   font-size: var(--text-subheading);
-  line-height: 1.33;
-  letter-spacing: var(--tracking-snug);
+  line-height: 1.3;
 }
 .t-body-lg {
   font-size: var(--text-body-lg);
-  font-weight: var(--weight-semibold);
-  line-height: 1.33;
-  letter-spacing: var(--tracking-snug);
+  font-weight: var(--weight-medium);
+  line-height: 1.3;
 }
 .t-body-sm {
   font-size: var(--text-body-sm);
-  line-height: 1.6;
-  letter-spacing: var(--tracking-ui);
+  line-height: 1.55;
 }
 .t-caption {
   font-size: var(--text-caption);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 .t-muted {
-  color: var(--color-fog);
+  color: var(--text-muted);
 }
 .t-faint {
-  color: var(--color-ash);
+  color: var(--text-faint);
+}
+.t-accent {
+  color: var(--accent);
+}
+
+/* Small uppercase label — nav, eyebrows, column heads, stat labels */
+.label,
+.eyebrow {
+  color: var(--text-muted);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
 /* ── Layout ─────────────────────────────────────────────────── */
@@ -131,16 +152,16 @@ code,
 
 .eyebrow {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-8);
-  color: var(--color-fog);
-  font-size: var(--text-caption);
 }
 
+/* Dashed hairline — always structural, never decoration */
 .divider {
-  height: 1px;
-  background: var(--color-graphite);
+  height: 0;
   border: 0;
+  border-top: var(--dash);
   margin: 0;
 }
 
@@ -154,106 +175,117 @@ code,
   border: 0;
   cursor: pointer;
   white-space: nowrap;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   transition:
     background-color var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
 }
 
-/* The only chromatic CTA — one per view. */
+/* The one filled action per view: bark pill, cream text. */
 .btn-primary {
-  background: var(--color-acid-lime);
-  color: var(--color-void);
-  border-radius: var(--radius-control);
-  padding: 10px 16px;
-  font-size: var(--text-ui);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-ui);
+  background: var(--cta);
+  color: var(--on-cta);
+  border-radius: var(--radius-pill);
+  padding: 13px 24px;
+  font-size: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255, 237, 215, 0.12);
 }
 .btn-primary:hover {
-  background: #eef55a;
+  background: var(--cta-hover);
 }
 
+/* Outlined cream ghost — the standard secondary action */
+.btn-signup {
+  background: transparent;
+  color: var(--text-strong);
+  border-radius: var(--radius-control);
+  box-shadow: inset 0 0 0 1px var(--text-strong);
+  padding: 8px 16px;
+  font-size: 11px;
+}
+.btn-signup:hover {
+  background: var(--wash-2);
+}
+
+/* Quieter outline for row-level actions */
 .btn-ghost {
   background: transparent;
-  color: var(--color-mist);
+  color: var(--text);
   border-radius: var(--radius-control);
-  box-shadow: inset 0 0 0 1px var(--color-graphite);
-  padding: 8px 12px;
-  font-size: var(--text-caption);
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: 7px 14px;
+  font-size: 11px;
 }
 .btn-ghost:hover {
-  box-shadow: inset 0 0 0 1px var(--color-smoke);
-  color: var(--color-bone);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--text-strong);
 }
 
 .btn-pill {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--color-mist);
-  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: var(--radius-badge);
+  box-shadow: inset 0 0 0 1px var(--line);
   padding: 4px 12px;
-  font-size: var(--text-caption);
+  font-size: 11px;
 }
 .btn-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-strong);
 }
 
-.btn-signup {
-  background: var(--color-paper);
-  color: var(--color-void);
-  border-radius: var(--radius-pill);
-  padding: 8px 16px;
-  font-size: var(--text-caption);
-  font-weight: var(--weight-medium);
-}
-.btn-signup:hover {
-  background: var(--color-bone);
-}
-
+/* Underline text link */
 .btn-nav {
   background: transparent;
-  color: var(--color-mist);
-  padding: 8px 12px;
-  font-size: var(--text-caption);
-  text-underline-offset: 4px;
+  color: var(--text);
+  padding: 8px 0;
+  font-size: 11px;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 5px;
 }
 .btn-nav:hover {
-  text-decoration: underline;
+  color: var(--text-strong);
+  text-decoration-color: var(--text-strong);
 }
 
 /* ── Surfaces ───────────────────────────────────────────────── */
 
 .card {
-  background: var(--color-carbon);
+  background: var(--surface);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-subtle);
   padding: var(--space-24);
 }
 
 .panel {
-  background: var(--color-obsidian);
+  background: var(--surface-raised);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-subtle);
 }
 
-/* ── Inputs ─────────────────────────────────────────────────── */
+/* ── Inputs: no boxes, just a line ─────────────────────────────── */
 
 .input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-control);
-  padding: 12px 14px;
-  color: var(--color-mist);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: var(--radius-input);
+  padding: 10px 2px;
+  color: var(--text-strong);
   font-size: var(--text-ui);
   transition: border-color var(--duration-fast) var(--ease-out);
 }
 .input::placeholder {
-  color: var(--color-fog);
+  color: var(--text-faint);
 }
 .input:focus {
   outline: none;
-  border-color: var(--color-mist);
+  border-bottom-color: var(--text-strong);
 }
 
 /* ── Badges ─────────────────────────────────────────────────── */
@@ -262,34 +294,41 @@ code,
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--color-fog);
+  background: transparent;
+  color: var(--text-muted);
   border-radius: var(--radius-badge);
-  padding: 0 6px;
-  font-size: var(--text-micro);
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
   line-height: 20px;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 .badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-pill);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   background: currentColor;
 }
 .badge-green {
-  color: var(--color-pulse-green);
+  color: var(--good);
 }
 .badge-red {
-  color: var(--color-coral-red);
+  color: var(--bad);
 }
 .badge-iris {
-  color: var(--color-iris-violet);
+  color: var(--tone-2);
 }
 .badge-lavender {
-  color: var(--color-lavender);
+  color: var(--tone-2);
 }
 .badge-teal {
-  color: var(--color-signal-teal);
+  color: var(--tone-3);
+}
+.badge-ember {
+  color: var(--accent);
 }
 
 @media (max-width: 640px) {

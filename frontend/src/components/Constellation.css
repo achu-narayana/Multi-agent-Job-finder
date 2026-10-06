@@ -17,8 +17,8 @@
 .constellation-card {
   padding: var(--space-24) var(--space-24) var(--space-16);
   background:
-    radial-gradient(ellipse 60% 55% at 50% 50%, rgba(99, 102, 241, 0.07), transparent 70%),
-    var(--color-void);
+    radial-gradient(ellipse 60% 55% at 50% 50%, rgba(220, 80, 0, 0.07), transparent 70%),
+    var(--bg);
 }
 
 .legend-shapes {
@@ -28,8 +28,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--color-fog);
-  font-size: var(--text-caption);
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 .legend-shapes li {
   display: inline-flex;
@@ -47,12 +49,12 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--color-mist);
+  background: var(--text);
 }
 .legend-you {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--color-paper);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
+  background: var(--text-strong);
+  box-shadow: 0 0 0 4px rgba(255, 237, 215, 0.15);
 }

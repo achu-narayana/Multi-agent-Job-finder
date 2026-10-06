@@ -1,7 +1,8 @@
 import type { RemotePolicy, Round } from "../data/startups";
 
 export function RoundBadge({ round }: { round: Round }) {
-  const tone = round === "Series B" || round === "Series C" ? "badge-green" : round === "Series A" ? "badge-iris" : "badge-teal";
+  // Same slots as the charts: seed → green, Series A → ember, Series B+ → blue.
+  const tone = round === "Series B" || round === "Series C" ? "badge-iris" : round === "Series A" ? "badge-ember" : "badge-teal";
   return (
     <span className={`badge ${tone}`}>
       <span className="badge-dot" />

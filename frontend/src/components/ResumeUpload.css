@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   padding: var(--space-16);
-  background: rgba(8, 9, 10, 0.72);
+  background: rgba(16, 9, 4, 0.72);
   backdrop-filter: blur(6px);
 }
 
@@ -27,16 +27,16 @@
   height: 120px;
 }
 .doc-frame {
-  fill: var(--color-carbon);
-  stroke: var(--color-smoke);
+  fill: var(--surface);
+  stroke: var(--line-strong);
 }
 .scan-line {
-  stroke: var(--color-ash);
+  stroke: var(--text-faint);
   stroke-width: 3;
   stroke-linecap: round;
 }
 .scan-beam {
-  fill: var(--color-acid-lime);
+  fill: var(--accent);
   opacity: 0.85;
 }
 
@@ -47,7 +47,7 @@
   padding: 0;
   list-style: none;
   font-size: var(--text-ui);
-  color: var(--color-mist);
+  color: var(--text);
 }
 .parse-step {
   display: flex;
@@ -60,8 +60,8 @@
   width: 16px;
   height: 16px;
   border-radius: var(--radius-pill);
-  background: rgba(39, 166, 68, 0.16);
-  color: var(--color-pulse-green);
+  background: rgba(141, 191, 111, 0.16);
+  color: var(--good);
   font-size: 10px;
 }
 
@@ -84,17 +84,20 @@
 }
 .parse-stats div {
   padding: var(--space-12);
-  border-radius: var(--radius-control);
-  background: var(--color-carbon);
-  box-shadow: var(--shadow-subtle);
+  border-radius: var(--radius-card);
+  background: transparent;
+  border: var(--dash);
 }
 .parse-stats dt {
-  color: var(--color-fog);
-  font-size: var(--text-micro);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 .parse-stats dd {
   margin: 4px 0 0;
-  color: var(--color-paper);
+  color: var(--text-strong);
   font-size: var(--text-subheading);
   font-weight: var(--weight-medium);
 }

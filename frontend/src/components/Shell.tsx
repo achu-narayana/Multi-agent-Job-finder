@@ -25,11 +25,7 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className="shell">
       <aside className="sidebar">
         <NavLink to="/" className="logo" aria-label="Jobly home">
-          <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="var(--color-obsidian)" />
-            <path d="M19 8v11a5 5 0 0 1-10 0" fill="none" stroke="var(--color-paper)" strokeWidth="3" strokeLinecap="round" />
-          </svg>
-          <span>Jobly</span>
+          Jobly<span className="logo-mark">1-Search</span>
         </NavLink>
 
         <button type="button" className="cmd-trigger" onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))} aria-label="Search (command palette)">
@@ -79,6 +75,9 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
       </aside>
       <CommandPalette />
+      <span className="serial" aria-hidden="true">
+        Jobly 1-Search · Funded startups · Referral engine
+      </span>
 
       <main className="main">
         <AnimatePresence mode="wait" initial={false}>
