@@ -44,7 +44,8 @@ function Glyph({ d }: { d: string }) {
 }
 
 const PAGES = [
-  { to: "/", title: "Dashboard", d: "M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z" },
+  { to: "/", title: "Home", d: "M2.5 7.5 8 3l5.5 4.5V13h-11zM6.5 13V9.5h3V13" },
+  { to: "/dashboard", title: "Dashboard", d: "M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z" },
   { to: "/startups", title: "Funded startups", d: "M2 13h12M4 13V7m4 6V4m4 9V9" },
   { to: "/referrals", title: "Referrals", d: "M6 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm-4 7a4 4 0 0 1 8 0" },
   { to: "/outreach", title: "Outreach", d: "M2 4l6 4.5L14 4M2.5 3.5h11v9h-11z" },

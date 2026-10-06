@@ -1,8 +1,10 @@
 import { BrowserRouter, MemoryRouter, Navigate, Route, Routes, useLocation } from "react-router";
 import { MotionConfig } from "motion/react";
+import { CommandPalette } from "./components/CommandPalette";
 import { Shell } from "./components/Shell";
 import { Company } from "./pages/Company";
 import { Dashboard } from "./pages/Dashboard";
+import { Landing } from "./pages/Landing";
 import { Outreach } from "./pages/Outreach";
 import { Pipeline } from "./pages/Pipeline";
 import { Profile } from "./pages/Profile";
@@ -28,10 +30,19 @@ export function App() {
 /** Routes get an explicit location so the page animating out keeps rendering its own route. */
 function AppRoutes() {
   const location = useLocation();
+  // The landing page is full-bleed and has its own nav; everything else lives in the app shell.
+  if (location.pathname === "/") {
+    return (
+      <>
+        <Landing />
+        <CommandPalette />
+      </>
+    );
+  }
   return (
     <Shell>
       <Routes location={location}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/startups" element={<Startups />} />
         <Route path="/startups/:id" element={<Company />} />
         <Route path="/referrals" element={<Referrals />} />

@@ -8,7 +8,7 @@ import { ResumeUpload } from "./ResumeUpload";
 import "./Shell.css";
 
 const NAV = [
-  { to: "/", label: "Dashboard" },
+  { to: "/dashboard", label: "Dashboard" },
   { to: "/startups", label: "Funded startups" },
   { to: "/referrals", label: "Referrals" },
   { to: "/outreach", label: "Outreach" },
@@ -31,7 +31,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
           <nav className="top-nav" aria-label="Main">
             {NAV.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.to === "/"} className="top-link">
+              <NavLink key={item.to} to={item.to} end={item.to === "/dashboard"} className="top-link">
                 {({ isActive }) => (
                   <>
                     {isActive && (
