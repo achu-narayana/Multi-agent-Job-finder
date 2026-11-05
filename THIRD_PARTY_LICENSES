@@ -5,7 +5,7 @@ Their license terms are reproduced here as those licenses require.
 
 
 ------------------------------------------------------------
-marketing-skills/  (derived from https://github.com/ericosiu/ai-marketing-skills)
+backend/packages/marketing/  (derived from https://github.com/ericosiu/ai-marketing-skills)
 ------------------------------------------------------------
 
 MIT License
@@ -32,7 +32,7 @@ SOFTWARE.
 
 
 ------------------------------------------------------------
-inbox/  (derived from https://github.com/cloudflare/agentic-inbox)
+backend/packages/inbox/  (derived from https://github.com/cloudflare/agentic-inbox)
 ------------------------------------------------------------
 
 
@@ -229,7 +229,7 @@ inbox/  (derived from https://github.com/cloudflare/agentic-inbox)
 
 
 ------------------------------------------------------------
-agent-reach/  (derived from https://github.com/Panniantong/Agent-Reach)
+backend/packages/reach/  (derived from https://github.com/Panniantong/Agent-Reach)
 ------------------------------------------------------------
 
 MIT License

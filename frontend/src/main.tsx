@@ -1,11 +1,7 @@
-// Global styles first so component stylesheets can override them.
-import "./styles/global.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
-import { setupMotion } from "./motion/setup";
-
-setupMotion();
+import "./index.css";
+import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

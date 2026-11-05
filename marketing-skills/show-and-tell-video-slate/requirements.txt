@@ -1,1 +1,0 @@
-# The bundled validator uses only the Python standard library.

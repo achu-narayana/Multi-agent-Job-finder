@@ -1,32 +1,48 @@
 {
-  "name": "jobly-frontend",
+  "name": "jobly",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "tsx watch server/index.ts",
+    "dev:web": "vite",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc -b && tsc -p server",
+    "lint": "oxlint",
     "preview": "vite preview",
-    "typecheck": "tsc -b",
-    "build:artifact": "tsc -b && vite build --mode artifact"
+    "start": "tsx server/index.ts"
   },
   "dependencies": {
-    "@fontsource-variable/hanken-grotesk": "^5.3.0",
-    "@gsap/react": "^2.1.2",
-    "@react-spring/web": "^10.1.2",
-    "animejs": "^4.5.0",
-    "gsap": "^3.15.0",
+    "@hono/node-server": "^2.1.6",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@tailwindcss/vite": "^4.3.4",
+    "hono": "^4.13.16",
+    "imapflow": "^2.10.2",
+    "lucide-react": "^1.69.0",
     "mammoth": "^1.13.0",
-    "motion": "^14.0.0",
-    "pdfjs-dist": "^6.4.299",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "react-router": "^8.4.0"
+    "motion": "^14.9.1",
+    "nodemailer": "^10.3.1",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-force-graph-3d": "^1.29.2",
+    "tailwindcss": "^4.3.4",
+    "three": "^0.187.0",
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^6.1.2",
-    "typescript": "^7.0.2",
-    "vite": "^8.3.3"
+    "concurrently": "^10.0.6",
+    "oxlint": "^1.90.0",
+    "tsx": "^4.23.15",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6"
   }
 }

@@ -1,6 +1,0 @@
-__pycache__/
-*.pyc
-receipts/
-.env*
-profile.json
-*.private.json
